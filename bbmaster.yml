@@ -1,0 +1,18 @@
+---
+- hosts: all
+  tasks:
+
+
+    - shell: apt-get install python-dev python-pip -y
+      become: yes
+
+    - name: install virtualenv
+      apt:
+         name: virtualenv
+      become: yes
+
+    - shell: mkdir -p ~/tmp/bb-master 
+
+    - name: Go to the folder and execute command to setup master 
+      command: bash -lc "cd ~/tmp/bb-master && virtualenv --no-site-packages sandbox && source sandbox/bin/activate && pip install --upgrade pip && pip install 'buildbot[bundle]' && buildbot create-master master && mv master/master.cfg.sample master/master.cfg && buildbot start master"
+    
